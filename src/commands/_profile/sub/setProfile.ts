@@ -24,7 +24,6 @@ const def = {
 };
 
 const f = () => {
-  console.log("bbb");
   return [
     new ActionRowBuilder<TextInputBuilder>().addComponents(
       new TextInputBuilder()

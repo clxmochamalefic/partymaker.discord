@@ -32,7 +32,6 @@ export default command(
   ,
   async (interaction: ChatInputCommandInteraction) => {
     const sc = interaction.options.getSubcommand()
-    console.log("aaa");
 
     if (sc === 'set') {
       const modal = new ModalBuilder()
