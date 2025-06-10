@@ -8,7 +8,8 @@ import {
   type ChatInputCommandInteraction,
   type RESTPostAPIChatInputApplicationCommandsJSONBody,
   type SlashCommandBuilder,
-  type SlashCommandOptionsOnlyBuilder
+  type SlashCommandOptionsOnlyBuilder,
+  type SlashCommandSubcommandsOnlyBuilder
 } from 'discord.js';
 import { pathToFileURL } from 'url';
 
@@ -23,12 +24,12 @@ type CommandCallback = (
 ) => Awaitable<unknown>;
 
 interface Command {
-  data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder;
+  data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder;
   callback: CommandCallback;
 }
 
 function command(
-  data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder,
+  data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder,
   callback: CommandCallback
 ): Command {
   return { data, callback };
