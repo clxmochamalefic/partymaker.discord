@@ -1,22 +1,14 @@
 import { command } from '@/lib/commands';
-import { awaitModal } from '@/lib/modals';
-import { ButtonBuilder, ModalBuilder, TextInputBuilder } from '@discordjs/builders';
+import { ModalBuilder, } from '@discordjs/builders';
 import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  PermissionFlagsBits,
+  MessageFlags,
   SlashCommandBuilder,
-  StringSelectMenuBuilder,
-  TextInputBuilder,
-  TextDisplayBuilder,
 
   type ChatInputCommandInteraction,
 } from 'discord.js';
 
-import getProfileComponent from './sub/setProfile';
+import buildSetProfileComponent from './sub/setProfile';
 
-const profileComponents = getProfileComponent();
 
 export default command(
   new SlashCommandBuilder()
@@ -33,11 +25,15 @@ export default command(
   async (interaction: ChatInputCommandInteraction) => {
     const sc = interaction.options.getSubcommand()
 
+    const userId = interaction.user.id;
+    const guildId = interaction.guildId ?? "";
+
     if (sc === 'set') {
+      const components = await buildSetProfileComponent(userId, guildId);
       const modal = new ModalBuilder()
         .setCustomId('profile-modal')
         .setTitle('Set Your Profile')
-      for (const c of profileComponents) {
+      for (const c of components) {
         modal.addComponents(c);
       }
       await interaction.showModal(modal);
@@ -48,7 +44,7 @@ export default command(
     const server = 'Atomos';
 
     await interaction.reply({
-      content: `NAME: ${name}\nSERVER: ${server}`,
+      content: `  NAME: ${name}\nSERVER: ${server}`,
       ephemeral: true,
     });
   }

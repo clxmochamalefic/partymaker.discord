@@ -8,7 +8,12 @@
     "dev": "nodemon ./src/index.ts",
     "start": "node dist/index.js",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prisma:format": "bunx prisma format",
+    "prisma:generate": "bunx prisma generate",
+    "prisma:migrate": "bunx prisma migrate",
+    "prisma:migrate_dev": "bunx prisma migrate dev",
+    "EOS": ""
   },
   "prisma": {
     "schema": "db/schema.prisma"

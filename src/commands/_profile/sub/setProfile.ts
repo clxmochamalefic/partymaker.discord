@@ -1,12 +1,10 @@
-import { command } from "@/lib/commands";
-import { awaitModal } from "@/lib/modals";
-import { ModalBuilder, TextInputBuilder } from "@discordjs/builders";
+import { TextInputBuilder } from "@discordjs/builders";
 import {
   ActionRowBuilder,
-  PermissionFlagsBits,
-  SlashCommandBuilder,
   TextInputStyle,
 } from "discord.js";
+
+import { getProfileFirstByUserIdAndGuildId } from '@/stores/profile'
 
 const def = {
   name: {
@@ -23,19 +21,23 @@ const def = {
   },
 };
 
-const f = () => {
+const f = async (userId: string, guildId: string) => {
+  const profile = await getProfileFirstByUserIdAndGuildId(userId, guildId) ?? { name: "", server: "" };
+
   return [
     new ActionRowBuilder<TextInputBuilder>().addComponents(
       new TextInputBuilder()
         .setCustomId(def.name.customId)
         .setLabel(def.name.label)
         .setStyle(TextInputStyle.Short)
+        .setValue(profile.name)
     ),
     new ActionRowBuilder<TextInputBuilder>().addComponents(
       new TextInputBuilder()
         .setCustomId(def.server.customId)
         .setLabel(def.server.label)
         .setStyle(TextInputStyle.Short)
+        .setValue(profile.server)
     ),
   ];
 }
