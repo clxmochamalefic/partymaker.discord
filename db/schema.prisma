@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// MASTER: GUILD - discordサーバのID
+model mGuild {
+  id      BigInt @id
+  guildId String // Guild ID
+}
+
+// MASTER: USER - discordユーザのID
+model mUser {
+  id      BigInt @id
+  userId  String // User ID
+}
+
+// MASTER: PROFILE - discordユーザとサーバに対するFFXIVユーザ設定
+model mProfile {
+  id      BigInt @id
+  guildId BigInt // mGuild.id
+  userId  BigInt // mUser.id
+  name    String
+  server  String
+  @@unique([guildId, userId])
+}
+
+// TABLE: EVENT - discordユーザとサーバに対するプロファイルのMAP
+model tEvent {
+  id            BigInt    @id
+  guildId       BigInt    // mGuild.id
+  ownerUserId   BigInt    // mUser.id
+  beginDateTime DateTime  // beginDateTime
+  endDateTime   DateTime  // beginDateTime
+}
+
+// TABLE: EVENT PARTICIPANT - イベントと参加者のMAP
+model tEventParticipant {
+  id      BigInt   @id
+  eventId BigInt   // tEvent.id
+  userId  BigInt   // mUser.id
+  @@unique([eventId, userId])
+}
