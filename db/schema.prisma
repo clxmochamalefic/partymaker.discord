@@ -11,41 +11,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// MASTER: GUILD - discordサーバのID
-model mGuild {
-  id      BigInt @id
-  guildId String // Guild ID
-}
-
-// MASTER: USER - discordユーザのID
-model mUser {
-  id      BigInt @id
-  userId  String // User ID
-}
-
 // MASTER: PROFILE - discordユーザとサーバに対するFFXIVユーザ設定
 model mProfile {
-  id      BigInt @id
-  guildId BigInt // mGuild.id
-  userId  BigInt // mUser.id
-  name    String
-  server  String
+  id                Int                 @id @default(autoincrement())
+  guildId           String
+  userId            String
+  name              String
+  server            String
+  tEvent            tEvent[]
+  tEventParticipant tEventParticipant[]
+
   @@unique([guildId, userId])
 }
 
 // TABLE: EVENT - discordユーザとサーバに対するプロファイルのMAP
 model tEvent {
-  id            BigInt    @id
-  guildId       BigInt    // mGuild.id
-  ownerUserId   BigInt    // mUser.id
-  beginDateTime DateTime  // beginDateTime
-  endDateTime   DateTime  // beginDateTime
+  id                Int                 @id @default(autoincrement())
+  guildId           String
+  ownerProfileId    Int
+  ownerProfile      mProfile?           @relation(fields: [ownerProfileId], references: [id]) // mUser.id
+  beginDateTime     DateTime
+  endDateTime       DateTime
+  tEventParticipant tEventParticipant[]
 }
 
 // TABLE: EVENT PARTICIPANT - イベントと参加者のMAP
 model tEventParticipant {
-  id      BigInt   @id
-  eventId BigInt   // tEvent.id
-  userId  BigInt   // mUser.id
-  @@unique([eventId, userId])
+  id         Int      @id @default(autoincrement())
+  eventId    Int // tEvent.id
+  event      tEvent   @relation(fields: [eventId], references: [id])
+  mProfileId Int // mUser.id
+  mProfile   mProfile @relation(fields: [mProfileId], references: [id]) // mUser.id
+
+  @@unique([eventId, mProfileId])
 }

@@ -1,10 +1,6 @@
-import { command } from "@/lib/commands";
-import { awaitModal } from "@/lib/modals";
-import { ModalBuilder, TextInputBuilder } from "@discordjs/builders";
+import { TextInputBuilder } from "@discordjs/builders";
 import {
   ActionRowBuilder,
-  PermissionFlagsBits,
-  SlashCommandBuilder,
   TextInputStyle,
 } from "discord.js";
 
@@ -23,19 +19,21 @@ const def = {
   },
 };
 
-const f = () => {
+const f = async (name: string, server: string) => {
   return [
     new ActionRowBuilder<TextInputBuilder>().addComponents(
       new TextInputBuilder()
         .setCustomId(def.name.customId)
         .setLabel(def.name.label)
         .setStyle(TextInputStyle.Short)
+        .setValue(name)
     ),
     new ActionRowBuilder<TextInputBuilder>().addComponents(
       new TextInputBuilder()
         .setCustomId(def.server.customId)
         .setLabel(def.server.label)
         .setStyle(TextInputStyle.Short)
+        .setValue(server)
     ),
   ];
 }
