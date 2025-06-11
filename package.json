@@ -34,6 +34,7 @@
     "@discordjs/builders": "^1.11.2",
     "discord.js": "^14.19.3",
     "dotenv": "^16.4.5",
+    "sqlite3": "^5.1.7",
     "zod": "^3.25.28"
   }
 }
