@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import { join } from 'path';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 export const envSchema = z.object({
   CLIENT_TOKEN: z.string(),
