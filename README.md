@@ -35,6 +35,15 @@ winget install SQLite.SQLite -h
     ```windows.pwsh
     bun install
     ```
+2. migration to DB - DBのマイグレーション実施
+    - first time only 初回
+        ```windows.pwsh
+        bunx prisma migrate dev --name init
+        ```
+    - second time and after - 2回目以降
+        ```windows.pwsh
+        bunx prisma migrate dev --preview-feature
+        ```
 
 ### 2. run in your local - ローカルでの実行
 

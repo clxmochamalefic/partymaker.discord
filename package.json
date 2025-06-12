@@ -8,7 +8,15 @@
     "dev": "nodemon ./src/index.ts",
     "start": "node dist/index.js",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prisma:format": "bunx prisma format",
+    "prisma:generate": "bunx prisma generate",
+    "prisma:migrate": "bunx prisma migrate",
+    "prisma:migrate_dev": "bunx prisma migrate dev",
+    "EOS": ""
+  },
+  "prisma": {
+    "schema": "db/schema.prisma"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -32,8 +40,10 @@
   },
   "dependencies": {
     "@discordjs/builders": "^1.11.2",
+    "@prisma/client": "^6.9.0",
     "discord.js": "^14.19.3",
     "dotenv": "^16.4.5",
+    "prisma": "^6.9.0",
     "sqlite3": "^5.1.7",
     "zod": "^3.25.28"
   }
