@@ -19,9 +19,6 @@ export async function upsert(
   const prisma = new PrismaClient();
   return await prisma.mProfile.upsert({
     where: {
-      //userId: userId,
-      //guildId: guildId,
-      //guildId_userId: `${guildId} ${userId}`,
       guildId_userId: {
         userId,
         guildId,
