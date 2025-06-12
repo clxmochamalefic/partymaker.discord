@@ -21,18 +21,27 @@ model mProfile {
   tEvent            tEvent[]
   tEventParticipant tEventParticipant[]
 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
   @@unique([guildId, userId])
 }
 
 // TABLE: EVENT - discordユーザとサーバに対するプロファイルのMAP
 model tEvent {
   id                Int                 @id @default(autoincrement())
+  title             String?
   guildId           String
   ownerProfileId    Int
   ownerProfile      mProfile?           @relation(fields: [ownerProfileId], references: [id]) // mUser.id
   beginDateTime     DateTime
   endDateTime       DateTime
   tEventParticipant tEventParticipant[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
 }
 
 // TABLE: EVENT PARTICIPANT - イベントと参加者のMAP
@@ -42,6 +51,10 @@ model tEventParticipant {
   event      tEvent   @relation(fields: [eventId], references: [id])
   mProfileId Int // mUser.id
   mProfile   mProfile @relation(fields: [mProfileId], references: [id]) // mUser.id
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
 
   @@unique([eventId, mProfileId])
 }

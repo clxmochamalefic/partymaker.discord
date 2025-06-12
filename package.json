@@ -13,6 +13,7 @@
     "prisma:generate": "bunx prisma generate",
     "prisma:migrate": "bunx prisma migrate",
     "prisma:migrate_dev": "bunx prisma migrate dev",
+    "prisma:reset": "bunx prisma reset",
     "EOS": ""
   },
   "prisma": {

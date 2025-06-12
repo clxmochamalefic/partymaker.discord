@@ -1,5 +1,8 @@
 import { event, Events } from '@/lib/events';
-import { Interaction } from 'discord.js';
+import {
+  Interaction,
+  MessageFlags,
+} from 'discord.js';
 
 type InteractionHandler<T extends Interaction> = (
   interaction: T
@@ -37,7 +40,7 @@ async function handleInteraction<T extends Interaction>(
       await interaction
         .reply({
           content: `An error occurred while executing this ${type}.`,
-          ephemeral: true
+          flags: MessageFlags.Ephemeral,
         })
         .catch(console.error);
   }
@@ -63,7 +66,7 @@ export default event(
   async (interaction: Interaction) => {
     const handler =
       interactionHandlers[
-        interaction.constructor.name as keyof typeof interactionHandlers
+      interaction.constructor.name as keyof typeof interactionHandlers
       ];
 
     if (handler) return await handler(interaction as never);
