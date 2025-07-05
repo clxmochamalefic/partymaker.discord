@@ -6,12 +6,25 @@ export async function getEventByGuildId(guildId: string) {
     where: {
       guildId: guildId,
     },
+    include: {
+      ownerProfile: true,
+    },
   });
 }
 
 export async function getEventByGuildIdAndProfileId(guildId: string, profileId: number) {
   const prisma = new PrismaClient();
   return await prisma.tEvent.findMany({
+    where: {
+      ownerProfileId: profileId,
+      guildId: guildId,
+    },
+  });
+}
+
+export async function getEventOnceByGuildIdAndProfileId(guildId: string, profileId: number) {
+  const prisma = new PrismaClient();
+  return await prisma.tEvent.findFirst({
     where: {
       ownerProfileId: profileId,
       guildId: guildId,
@@ -28,8 +41,6 @@ export async function upsert(
   eventId: number | null = null
 ) {
   const beginDateTime = new Date(beginDateTimeStr);
-  const endDateTime = new Date(beginDateTimeStr);
-  endDateTime.setTime(endDateTime.getTime() + endTerm * 60 * 60 * 1000)
 
   const prisma = new PrismaClient();
 
@@ -41,7 +52,7 @@ export async function upsert(
         guildId: guildId,
         title: title,
         beginDateTime: beginDateTime,
-        endDateTime: endDateTime,
+        endTermHour: endTerm,
       }
     });
   }
@@ -54,7 +65,7 @@ export async function upsert(
     data: {
       title: title,
       beginDateTime: beginDateTime,
-      endDateTime: endDateTime,
+      endTermHour: endTerm,
     }
   });
 

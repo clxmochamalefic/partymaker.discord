@@ -36,7 +36,7 @@ model tEvent {
   ownerProfileId    Int
   ownerProfile      mProfile?           @relation(fields: [ownerProfileId], references: [id]) // mUser.id
   beginDateTime     DateTime
-  endDateTime       DateTime
+  endTermHour       Int
   tEventParticipant tEventParticipant[]
 
   createdAt DateTime  @default(now())
